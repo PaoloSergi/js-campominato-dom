@@ -28,6 +28,7 @@ myScore.className = "score";
 myMain.append(myScore);
 
 let points = 0;
+let playing = true;
 
 const levelEasyBtn = document.getElementById("levelEasy");
 const levelMediumBtn = document.getElementById("levelMedium");
@@ -43,6 +44,8 @@ function createGrid (size, level){
 
     myWrap.innerHTML = "";
     myScore.innerHTML = "";
+
+    playing = true;
 
     const myGrid = document.createElement("div");
     myWrap.append(myGrid);
@@ -65,16 +68,22 @@ function createGrid (size, level){
 }
 
 function bomb(arg){
-    arg.style.backgroundColor = "red";
+    if (playing){
+        arg.style.backgroundColor = "red";
 
-    myScore.innerHTML = `Hai perso!<br>Il tuo punteggio è: ${points}`;
+        myScore.innerHTML = `Hai perso!<br>Il tuo punteggio è: ${points}`;
+        
+        points = 0;
+        playing = false;
+    }
     
-    points = 0;
 }
 
 function notBomb(arg){
-    arg.style.backgroundColor = "blue";
-    points += 1;
+    if (playing){
+        arg.style.backgroundColor = "blue";
+        points += 1;
+    }
 }
 
 function createRandomNumsArray (size, min, max){

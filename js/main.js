@@ -18,7 +18,6 @@ BONUS possibili:
 1- quando si clicca su una bomba e finisce la partita, evitare che si possa cliccare su altre celle
 2- quando si clicca su una bomba e finisce la partita, il software scopre tutte le bombe nascoste */
 
-
 const myWrap = document.querySelector(".wrap");
 
 const myMain = document.querySelector("main");
@@ -59,24 +58,34 @@ function createGrid (size, level){
         myGrid.append(myArticle);
         myArticle.append(myArray[i]);
 
+        myArticle.classList.add(`number${i}`)
+
         if (checkNumInArray (myArray[i], bombsArray)){
-            myArticle.addEventListener('click', () => bomb(myArticle));
+            myArticle.addEventListener('click', () => bomb(myArticle, size));
+            myArticle.classList.add("bombed");
         } else {
             myArticle.addEventListener('click', () => notBomb(myArticle));
         }
     }
+
+    
 }
 
-function bomb(arg){
+function bomb(arg, size){
     if (playing){
-        arg.style.backgroundColor = "red";
-
         myScore.innerHTML = `Hai perso!<br>Il tuo punteggio è: ${points}`;
         
         points = 0;
         playing = false;
+
+        for (let i=0; i<size; i++){
+            const checkingBombs = document.querySelector(`.number${i}`);
+            if (checkingBombs.classList.contains("bombed")){
+                checkingBombs.style.backgroundColor = "orange";
+            }
+        }
+        arg.style.backgroundColor = "red";
     }
-    
 }
 
 function notBomb(arg){
@@ -84,6 +93,14 @@ function notBomb(arg){
         arg.style.backgroundColor = "blue";
         points += 1;
     }
+}
+
+function checkNumInArray (numTocheck, arrayTocheck){
+    for (let i=0; i<arrayTocheck.length; i++){
+        if (arrayTocheck[i] === numTocheck){
+            return true;
+        }
+    } return false;
 }
 
 function createRandomNumsArray (size, min, max){
@@ -101,12 +118,4 @@ function createRandomNumsArray (size, min, max){
 
 function createRandomNum (min,max){
     return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function checkNumInArray (numTocheck, arrayTocheck){
-    for (let i=0; i<arrayTocheck.length; i++){
-        if (arrayTocheck[i] === numTocheck){
-            return true;
-        }
-    } return false;
 }

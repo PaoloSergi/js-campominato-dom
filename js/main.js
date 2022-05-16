@@ -21,6 +21,14 @@ BONUS possibili:
 
 const myWrap = document.querySelector(".wrap");
 
+const myMain = document.querySelector("main");
+const myScore = document.createElement("div");
+
+myScore.className = "score";
+myMain.append(myScore);
+
+let points = 0;
+
 const levelEasyBtn = document.getElementById("levelEasy");
 const levelMediumBtn = document.getElementById("levelMedium");
 const levelDifficultBtn = document.getElementById("levelDifficult");
@@ -29,13 +37,12 @@ levelEasyBtn.addEventListener('click', () => createGrid(100, "easy"));
 levelMediumBtn.addEventListener('click', () => createGrid(81, "medium"));
 levelDifficultBtn.addEventListener('click', () => createGrid(49, "difficult"));
 
-let points = 0;
-
 // dichiarazione funzioni
 
 function createGrid (size, level){
 
     myWrap.innerHTML = "";
+    myScore.innerHTML = "";
 
     const myGrid = document.createElement("div");
     myWrap.append(myGrid);
@@ -60,12 +67,8 @@ function createGrid (size, level){
 function bomb(arg){
     arg.style.backgroundColor = "red";
 
-    const myMain = document.querySelector("main");
-    const myScore = document.createElement("div");
-    // myScore.className = "score";
-
-    myMain.append(myScore);
-    myScore.innerHTML = `Hai perso! Il tuo punteggio è: ${points}`;
+    myScore.innerHTML = `Hai perso!<br>Il tuo punteggio è: ${points}`;
+    
     points = 0;
 }
 
